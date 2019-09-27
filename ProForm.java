@@ -10,22 +10,22 @@ import javax.swing.SwingConstants;
 
 public class ProForm extends JFrame { 
 	/**
-	 * @author rodomod 19.09.2019
+	 * @author rodomod 27.09.2019
 	 */
 	
-	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bSum,bSub,bDiv,bMul,bSe,bEqals,bPtn,bBack;
+	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bSum,bSub,bDiv,bMul,bSe,bEqals,bPtn,bBack,bOps,bSqrt,bPow;
 	JTextField display;
 	int i=0,k=10,SUM=0,SUB=0,MUL=0,DIV=0;
 	String j,h;
 	double a,b;
 	Pro han=new Pro();
     public ProForm() {
-    	super("java");
+    	super("java'26'");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	getContentPane().setLayout(new FlowLayout());
     	
-    	display=new JTextField(15);
-    	display.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+    	display=new JTextField(17);
+    	display.setFont(new Font("Times New Roman", Font.PLAIN, 15));
     	display.setToolTipText("");
     	display.setHorizontalAlignment(SwingConstants.RIGHT);
     	b1=new JButton("1");
@@ -37,16 +37,16 @@ public class ProForm extends JFrame {
     	b7=new JButton("7");
     	b8=new JButton("8");
     	b9=new JButton("9");
-    	b0=new JButton("       0       ");
+    	b0=new JButton("0");
     	bPtn=new JButton(".");
     	bSum=new JButton("+");
     	bSub=new JButton("-");
     	bMul=new JButton("*");
     	bDiv=new JButton("/");
-    	bSe=new JButton("   CE   ");
-    	bEqals=new JButton("               =               ");
+    	bSe=new JButton("     CE     ");
+    	bEqals=new JButton("                      =                      ");
     	bPtn=new JButton(".");
-        bBack=new JButton("   C   ");
+        bBack=new JButton("     C     ");bOps=new JButton("-/+");bSqrt=new JButton("sqrt");bPow=new JButton("pow^3");
     	display.setEditable(false);
     	getContentPane().add(display);
     	getContentPane().add(bSe);
@@ -66,7 +66,7 @@ public class ProForm extends JFrame {
     	getContentPane().add(bSum);
     	getContentPane().add(bSub);
     	getContentPane().add(bDiv);
-    	getContentPane().add(bMul);
+    	getContentPane().add(bMul);getContentPane().add(bOps);getContentPane().add(bSqrt);getContentPane().add(bPow);
     	bSe.addActionListener(han);
     	b1.addActionListener(han);
     	b2.addActionListener(han);
@@ -84,15 +84,15 @@ public class ProForm extends JFrame {
     	bEqals.addActionListener(han);
     	bSub.addActionListener(han);
     	bDiv.addActionListener(han);
-    	bMul.addActionListener(han);
+    	bMul.addActionListener(han);bOps.addActionListener(han);bSqrt.addActionListener(han);bPow.addActionListener(han);
                        }
 
 public class Pro implements ActionListener {
         @Override
 	public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==bSe)  {
+			if(e.getSource()==bSe)  {    // CE ->" "
 				display.setText("");i=0;}
-			if(e.getSource()==bBack)  {
+			if(e.getSource()==bBack)  {  // back -1
 			    String tmp=display.getText();
 			    display.setText(tmp.substring(0,tmp.length()-1));i--;}
 			if(e.getSource()==b1)  {
@@ -115,11 +115,11 @@ public class Pro implements ActionListener {
 				display.setText(display.getText()+9);i++;}
 			if(e.getSource()==b0)  {
 				display.setText(display.getText()+0);i++;}
-			if(e.getSource()==bPtn)  {
+			if(e.getSource()==bPtn)  {  // " . "
 				String ptn=display.getText();
 			if(!ptn.contains("."))display.setText(display.getText()+".");}
 			
-			if(e.getSource()==bEqals)  {
+			if(e.getSource()==bEqals)  { // "="
 				h=display.getText();
 				b=Double.parseDouble(h);
 				a=Double.parseDouble(j);
@@ -132,14 +132,26 @@ public class Pro implements ActionListener {
 				if(DIV==1)  {
 					display.setText(a/b+"");DIV=0;a=0;b=0;h="";j="";}
 			}
-			if(e.getSource()==bSum)  {
+			if(e.getSource()==bSum)  {  // "+"
 				j=display.getText();display.setText("");SUM++;}
-			if(e.getSource()==bSub)  {
+			if(e.getSource()==bSub)  {  // "-"
 				j=display.getText();display.setText("");SUB++;}
-			if(e.getSource()==bMul)  {
+			if(e.getSource()==bMul)  {  // "*"
 				j=display.getText();display.setText("");MUL++;}
-			if(e.getSource()==bDiv)  {
+			if(e.getSource()==bDiv)  {  // "/"
 				j=display.getText();display.setText("");DIV++;}
+		if(e.getSource()==bOps)  {     // "ops"
+			double ops=Double.parseDouble(String.valueOf(display.getText()));
+		ops*=(-1.0D);display.setText(String.valueOf(ops));}
+		if(e.getSource()==bSqrt)   {     // "sqrt"
+		double sm=Double.parseDouble(display.getText());
+		double fm=Double.parseDouble(display.getText());
+		String sq=display.getText();
+		if(sq.indexOf("")==0)display.setText(Math.sqrt(sm*fm/sm)+"");}
+		if(e.getSource()==bPow)  {       // "pow^3"
+		double fy=Double.parseDouble(display.getText());
+		String Pow=display.getText();
+		if(Pow.indexOf("")==0){display.setText(Math.pow(fy,3)+"");}}
 			
 			}
     } 
@@ -147,7 +159,7 @@ public class Pro implements ActionListener {
 public static void main(String[] args)  {  
         ProForm r=new ProForm();
 		r.setVisible(true);
-		r.setSize(157,307);
+		r.setSize(207,277);
 		r.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		r.setResizable(false);
 		r.setLocationRelativeTo(null);
